@@ -1,4 +1,7 @@
 package com.betterme.tankwar.game;
+/**
+ * 坦克类，是我的坦克和敌人坦克的父类
+ */
 
 import java.awt.*;
 import java.util.Vector;
@@ -87,8 +90,11 @@ public class Tank {
         x = x + speed;
     }
 
-    //坦克开火
+    /**
+     * 坦克开火
+     */
     public void fire(){
+
         switch (direction){
             case 0:
                 shell = new Shell(x + 11, y - 6, 0);
@@ -109,6 +115,63 @@ public class Tank {
         }
         Thread thread = new Thread(shell);
         thread.start();
+    }
+
+    /**
+     * 得到坦克所处的矩形区域
+     * @return
+     */
+    public Rectangle getRectangle(){
+
+        Rectangle rectangle = null;
+        switch (direction){
+            case 0:
+            case 1:
+              rectangle = new Rectangle(x, y, 25, 30);
+              break;
+            case 2:
+            case 3:
+                rectangle = new Rectangle(x, y, 30, 25);
+                break;
+        }
+        return rectangle;
+    }
+
+    /**
+     * 得到坦克移动后的矩形区域
+     * @return
+     */
+    public Rectangle getNextRectangle(){
+        Rectangle rectangle = null;
+        switch (direction){
+            case 0:
+                rectangle = new Rectangle(x, y-speed, 25, 30);
+                break;
+            case 1:
+                rectangle = new Rectangle(x, y+speed, 25, 30);
+                break;
+            case 2:
+                rectangle = new Rectangle(x-speed, y, 30, 25);
+                break;
+            case 3:
+                rectangle = new Rectangle(x+speed, y, 30, 25);
+                break;
+        }
+        return rectangle;
+    }
+
+    /**
+     * 判断坦克是否撞到坦克
+     * @param tank 坦克对象，enemyTank or MyTank
+     * @param anotherTank 另一个坦克
+     * @return 返回是否撞到
+     */
+    public boolean isCrashTank(Tank tank , Tank anotherTank) {
+
+        boolean b = tank.getNextRectangle().intersects(anotherTank.getRectangle());
+//        if (b)
+//            System.out.println(b + " " + tank.direction + " " + anotherTank.direction);
+        return (b);
     }
 
 }

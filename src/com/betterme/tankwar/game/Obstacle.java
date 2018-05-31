@@ -259,81 +259,90 @@ public class Obstacle {
         return kind;
     }
 
-}
+    /**
+     * 得到障碍物所在矩形
+     * @return
+     */
+    public Rectangle getRectangle(){
 
-/**
- * 钢铁，不可以被炮弹打掉
- */
-class Steel extends Obstacle{
-
-    public Steel(int x, int y) {
-        super(x, y);
-        this.image = Toolkit.getDefaultToolkit().getImage("sources/images/steel.png");
+        return(new Rectangle(x, y, 30, 30));
     }
-}
+    /**
+     * 钢铁，不可以被炮弹打掉
+     */
+    class Steel extends Obstacle{
 
-/**
- * 草，坦克可以隐藏到里面
- */
-class Grass extends Obstacle{
-
-    public Grass(int x, int y) {
-        super(x, y);
-        this.image = Toolkit.getDefaultToolkit().getImage("sources/images/grass.png");
+        public Steel(int x, int y) {
+            super(x, y);
+            this.image = Toolkit.getDefaultToolkit().getImage("sources/images/steel.png");
+        }
     }
-}
 
-/**
- * 水，坦克进入到里面会丢失生命
- */
-class Lake extends Obstacle{
+    /**
+     * 草，坦克可以隐藏到里面
+     */
+    class Grass extends Obstacle{
 
-    public Lake(int x, int y) {
-        super(x, y);
-        this.image = Toolkit.getDefaultToolkit().getImage("sources/images/lake.png");
+        public Grass(int x, int y) {
+            super(x, y);
+            this.image = Toolkit.getDefaultToolkit().getImage("sources/images/grass.png");
+        }
     }
-}
 
-class ObstacleWithLive extends Obstacle{
+    /**
+     * 水，炮弹课以穿过，坦克不可以
+     */
+    class Lake extends Obstacle{
 
-    boolean isLive = true;
-
-    public ObstacleWithLive(int x, int y){
-        super(x, y);
+        public Lake(int x, int y) {
+            super(x, y);
+            this.image = Toolkit.getDefaultToolkit().getImage("sources/images/lake.png");
+        }
     }
-}
-/**
- * 墙，可以被炮弹打掉
- */
-class Wall extends ObstacleWithLive{
 
+    class ObstacleWithLife extends Obstacle{
 
-    public Wall(int x, int y){
-        super(x, y);
-        this.isLive = true;
-        this.image = Toolkit.getDefaultToolkit().getImage("sources/images/wall.png");
+        boolean isLive = true;
+
+        public ObstacleWithLife(int x, int y){
+            super(x, y);
+        }
     }
-}
-/**
- * 生命，+1
- */
-class Life extends ObstacleWithLive{
+    /**
+     * 墙，可以被炮弹打掉
+     */
+    class Wall extends ObstacleWithLife{
 
-    public Life(int x, int y){
-        super(x, y);
-        this.isLive = true;
-        this.image = Toolkit.getDefaultToolkit().getImage("sources/images/life.png");
+
+        public Wall(int x, int y){
+            super(x, y);
+            this.isLive = true;
+            this.image = Toolkit.getDefaultToolkit().getImage("sources/images/wall.png");
+        }
     }
-}
+    /**
+     * 生命，+1
+     */
+    class Life extends ObstacleWithLife{
 
-/**
- * 炮弹，随机加
- */
-class Exshell extends ObstacleWithLive{
-
-    public Exshell(int x, int y){
-        super(x, y);
-        this.isLive = true;
-        this.image = Toolkit.getDefaultToolkit().getImage("sources/images/shell.png");
+        public Life(int x, int y){
+            super(x, y);
+            this.isLive = true;
+            this.image = Toolkit.getDefaultToolkit().getImage("sources/images/life.png");
+        }
     }
+
+    /**
+     * 炮弹，随机加
+     */
+    class Exshell extends ObstacleWithLife{
+
+        public Exshell(int x, int y){
+            super(x, y);
+            this.isLive = true;
+            this.image = Toolkit.getDefaultToolkit().getImage("sources/images/shell.png");
+        }
+    }
+
 }
+

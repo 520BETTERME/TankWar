@@ -3,7 +3,10 @@ package com.betterme.tankwar.menu;
 import javax.swing.*;
 import java.awt.*;
 
-//确认退出游戏对话框
+/**
+ * 确认退出游戏对话框
+ */
+
 public class ExitConfirmDialog extends JDialog{
 
     ExitConfirmDialog(){

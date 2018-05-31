@@ -100,7 +100,7 @@ public class Recorder {
         Obstacle.obstacles.clear();
         Obstacle.grasses.clear();
         MapPanel.enemyTanks.clear();
-        MapPanel.myTank = new MyTank();
+        //MapPanel.myTank = new MyTank();
     }
 
     /**
@@ -204,9 +204,9 @@ public class Recorder {
     }
 
     /**
-     * 将本次游戏敌人坦克信息写入json
+     * 将本次游戏玩家信息写入json文件
      */
-    public static void saveEnemyInfoTOJson(){
+    public void saveEnemyInfoTOJson(){
 
         StringBuffer etInfo = new StringBuffer();
         etInfo.append("{\"enemyReNum\":" + Recorder.getEnemyNum() + ", \"enemyTanks\": [");
@@ -233,7 +233,7 @@ public class Recorder {
     /**
      * 将本次游戏玩家信息写入json文件
      */
-    public static void savePlayerInfoToJson(){
+    public void savePlayerInfoToJson(){
 
         StringBuffer playerInfo = new StringBuffer();
         playerInfo.append("{\"myLife\":" + Recorder.getMyLife() +
@@ -257,7 +257,7 @@ public class Recorder {
     /**
      * 将本次闯关记录写入到文件中
      */
-    public static void savePassStage(){
+    public void savePassStage(){
         try{
             FileWriter fw = new FileWriter("sources/recorder/stage");
             BufferedWriter bw = new BufferedWriter(fw);

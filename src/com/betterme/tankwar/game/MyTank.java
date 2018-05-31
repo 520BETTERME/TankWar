@@ -50,38 +50,32 @@ public class MyTank extends Tank {
 
     /**
      * myTank碰到城墙，钢铁,水/心/炮弹，分别返回012
-     * @param direction 我的坦克的方向
      * @return 返回撞到的障碍物的种类
      */
-    public String crashObstacle(int direction){
+    public String crashObstacle(){
 
         String kind = "3";
         for (int i = 0; i < Obstacle.obstacles.size(); i++ ) {
             Obstacle obstacle = Obstacle.obstacles.get(i);
-            switch (direction){
-                case 0:
-                    if ((getX() > obstacle.x && getX() < obstacle.x+30 && getY() > obstacle.y && getY() < obstacle.y+30) ||
-                            getX()+25 > obstacle.x && getX()+25 < obstacle.x+30 && getY() > obstacle.y && getY() < obstacle.y+30)
-                        kind = obstacle.judgeObstacle(obstacle);
-                    break;
-                case 1:
-                    if ((getX() > obstacle.x && getX() < obstacle.x+30 && getY()+30 > obstacle.y && getY()+30 < obstacle.y+30) ||
-                            getX()+25 > obstacle.x && getX()+25 < obstacle.x+30 && getY()+30 > obstacle.y && getY()+30 < obstacle.y+30)
-                        kind = obstacle.judgeObstacle(obstacle);
-                    break;
-                case 2:
-                    if ((getX() > obstacle.x && getX() < obstacle.x+30 && getY() > obstacle.y && getY() < obstacle.y+30) ||
-                            getX() > obstacle.x && getX() < obstacle.x+30 && getY()+25 > obstacle.y && getY()+25 < obstacle.y+30)
-                        kind = obstacle.judgeObstacle(obstacle);
-                    break;
-                case 3:
-                    if ((getX()+30 > obstacle.x && getX()+30 < obstacle.x+30 && getY() > obstacle.y && getY() < obstacle.y+30) ||
-                            getX()+30 > obstacle.x && getX()+30 < obstacle.x+30 && getY()+25 > obstacle.y && getY()+25 < obstacle.y+30)
-                        kind = obstacle.judgeObstacle(obstacle);
-                    break;
-            }
+            if (getNextRectangle().intersects(obstacle.getRectangle()))
+                kind = obstacle.judgeObstacle(obstacle);
         }
         return kind;
+    }
+
+    /**
+     * 判断是否撞到敌人坦克
+     * @return 返回是否
+     */
+    public boolean isCrashEnemy(){
+
+        boolean crashEnemy = false;
+        for (int i = 0; i < MapPanel.enemyTanks.size(); i++ ){
+            EnemyTank et = MapPanel.enemyTanks.get(i);
+            if (getNextRectangle().intersects(et.getRectangle()))
+                crashEnemy = true;
+        }
+        return crashEnemy;
     }
 
 }

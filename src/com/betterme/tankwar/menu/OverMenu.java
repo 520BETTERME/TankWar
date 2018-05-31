@@ -43,7 +43,7 @@ public class OverMenu extends FWindow implements ActionListener{
         buChoices.add(buChoice2);
         buChoices.add(buChoice3);
         buChoices.add(buChoice4);
-        ButtonPanel panL = new ButtonPanel(400,460,25,25, buChoices);
+        ButtonPanel panL = new ButtonPanel(400,460,20,20, buChoices);
         panL.setPanNorthSize(400, 40);
         panL.setPanSouthSize(400, 80);
         panL.setPanWESize(100, 350);
@@ -62,7 +62,6 @@ public class OverMenu extends FWindow implements ActionListener{
         this.add(barLabNorth, BorderLayout.NORTH);
         this.add(panCenter, BorderLayout.CENTER);
         this.setVisible(true);
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         for (int i = 0; i < buChoices.size(); i++ ){
             buChoices.get(i).addActionListener(this);

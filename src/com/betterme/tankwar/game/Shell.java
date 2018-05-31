@@ -109,15 +109,15 @@ public class Shell implements Runnable{
         for (int i = 0; i < Obstacle.obstacles.size(); i++ ) {
             Obstacle o = Obstacle.obstacles.get(i);
             if (getX() >= o.x && getX() <= o.x + 30 && getY() >= o.y && getY() <= o.y + 30) {
-                if (o instanceof ObstacleWithLive) {
+                if (o instanceof Obstacle.ObstacleWithLife) {
                     isLive = false;
                     tank.shells.remove(this);
-                    ObstacleWithLive owl = (ObstacleWithLive) o;
+                    Obstacle.ObstacleWithLife owl = (Obstacle.ObstacleWithLife) o;
                     owl.isLive = false;
                     Obstacle.obstacles.remove(owl);
                     kind = 0;
                     MapPanel.bombs.add(new Bomb(o.x, o.y));
-                } else if (o instanceof Steel) {
+                } else if (o instanceof Obstacle.Steel) {
                     isLive = false;
                     tank.shells.remove(this);
                     kind = 1;

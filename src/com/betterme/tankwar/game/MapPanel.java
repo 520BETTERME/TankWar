@@ -27,12 +27,15 @@ public class MapPanel extends JPanel implements KeyListener, Runnable{
     private LinkedList<Music> getFoodMusics = new LinkedList<>();
     private Obstacle obstacle = new Obstacle();
     private Setting setting = new Setting();
-
+    private Recorder recorder = new Recorder();
+    private int stage;
     /**
      * 构造函数
      * @param stage 关卡
      */
     public MapPanel(int stage){
+
+        this.stage = stage;
         switch (stage){
             case 1:
                 obstacle.init_1();
@@ -143,16 +146,14 @@ public class MapPanel extends JPanel implements KeyListener, Runnable{
                     enemyTanks.remove(et);
             }
         }
-
         if (myTank.isLive){
             drawTank(myTank.getX(), myTank.getY(), myTank, myTank.getDirection(), g);
         }
-        drawGrass(g);
         if (bombs.size() != 0 ){
             drawBomb(g);
         }
+        drawGrass(g);
         drawInfo(g);
-
     }
 
     /**
@@ -289,9 +290,9 @@ public class MapPanel extends JPanel implements KeyListener, Runnable{
 //        System.out.println(new Random().nextInt(1) + 510);
         int king = (int)(Math.random() * 2);
         if (flag == 1000 && king == 0){
-            Obstacle.obstacles.add(new Life(x,y));
+            Obstacle.obstacles.add(new Obstacle().new Life(x,y));
         }else if (flag == 25 && king == 1){
-            Obstacle.obstacles.add(new Exshell(x,y));
+            Obstacle.obstacles.add(new Obstacle().new Exshell(x,y));
         }
     }
 
@@ -302,7 +303,7 @@ public class MapPanel extends JPanel implements KeyListener, Runnable{
     private void drawGrass(Graphics g){
 
         for (int i = 0; i < Obstacle.grasses.size(); i++ ){
-            Grass grass = Obstacle.grasses.get(i);
+            Obstacle.Grass grass = Obstacle.grasses.get(i);
             g.drawImage(grass.image, grass.x, grass.y, 30, 30, this);
         }
     }
@@ -319,10 +320,10 @@ public class MapPanel extends JPanel implements KeyListener, Runnable{
             //上
             case KeyEvent.VK_W:
                 myTank.setDirection(0);
-                String s0 = myTank.crashObstacle(0);
+                String s0 = myTank.crashObstacle();
                 if ("12".indexOf(s0) >= 0 && Setting.isIsMusicFxOn())
                     getFoodMusics.add(new Music("sources/media/get.wav"));
-                if (myTank.getY() > 0 && !s0.equals("0")){
+                if (myTank.getY() > 0 && !s0.equals("0") && !myTank.isCrashEnemy()){
                     myTank.moveUp();
                 }
 
@@ -330,26 +331,26 @@ public class MapPanel extends JPanel implements KeyListener, Runnable{
             //下
             case KeyEvent.VK_S:
                 myTank.setDirection(1);
-                String s1 = myTank.crashObstacle(1);
+                String s1 = myTank.crashObstacle();
                 if ("12".indexOf(s1) >= 0 && Setting.isIsMusicFxOn())
                     getFoodMusics.add(new Music("sources/media/get.wav"));
-                if (myTank.getY()+30 < 540 && !s1.equals("0"))
+                if (myTank.getY()+30 < 540 && !s1.equals("0") && !myTank.isCrashEnemy())
                         myTank.moveDown();
                 break;
             //左
             case KeyEvent.VK_A:
                 myTank.setDirection(2);
-                String s2 = myTank.crashObstacle(2);
+                String s2 = myTank.crashObstacle();
                 if ("12".indexOf(s2) >= 0 && Setting.isIsMusicFxOn())
                     getFoodMusics.add(new Music("sources/media/get.wav"));
-                if (myTank.getX() > 0 && !s2.equals("0"))
+                if (myTank.getX() > 0 && !s2.equals("0") && !myTank.isCrashEnemy())
                         myTank.moveLeft();
                 break;
             //右
             case KeyEvent.VK_D:
                 myTank.setDirection(3);
-                String s3 = myTank.crashObstacle(3);
-                if ("12".indexOf(s3) >= 0 && Setting.isIsMusicFxOn())
+                String s3 = myTank.crashObstacle();
+                if ("12".indexOf(s3) >= 0 && Setting.isIsMusicFxOn() && !myTank.isCrashEnemy())
                     getFoodMusics.add(new Music("sources/media/get.wav"));
                 if (myTank.getX()+30 < 960 && !s3.equals("0"))
                        myTank.moveRight();
@@ -363,9 +364,9 @@ public class MapPanel extends JPanel implements KeyListener, Runnable{
         }
         //按esc键退出
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-            Recorder.savePassStage();
-            Recorder.saveEnemyInfoTOJson();
-            Recorder.savePlayerInfoToJson();
+            recorder.savePassStage();
+            recorder.saveEnemyInfoTOJson();
+            recorder.savePlayerInfoToJson();
             MapPanel.runThread = false;
             if (Setting.isIsBgmOn())
                 bgm.stopPlay();
@@ -400,12 +401,13 @@ public class MapPanel extends JPanel implements KeyListener, Runnable{
             //初始化敌人坦克，若全死了，重新往地图上添加
             if (enemyTanks.size() == 0){
                 //System.out.println("here");
-                for (int i = 0; i < Setting.getEnemyNumOnMap(); i ++){
-                    EnemyTank et = new EnemyTank((i+1)*45,i+480);
-                    enemyTanks.add(et);
-                    Thread thread = new Thread(et);
-                    thread.start();
-                }
+//                for (int i = 0; i < Setting.getEnemyNumOnMap(); i ++){
+//                    EnemyTank et = new EnemyTank((i+1)*45,i+480);
+//                    enemyTanks.add(et);
+//                    Thread thread = new Thread(et);
+//                    thread.start();
+//                }
+                setting.initEnemyTankLocatin(stage);
             }
             //初始化我的坦克
             if (!myTank.isLive && Recorder.getMyLife() > 0){

@@ -30,6 +30,8 @@ public class GameWindow extends FWindow implements Runnable{
         Thread thread = new Thread(mapPanel);
         thread.start();
         this.setVisible(true);
+        Thread thread1 = new Thread(this);
+        thread1.start();
     }
 
     /**
@@ -39,7 +41,7 @@ public class GameWindow extends FWindow implements Runnable{
     public void run() {
 
         while (!stopGame){
-            //System.out.println(MapPanel.isRunThread());
+            //System.out.println("GameWindow thread is running...");
 
             /**
              * 如果游戏结束(退出)，此面板消失，终止此线程;

@@ -16,7 +16,7 @@ public class Setting {
     //一次在地图上出现的敌人坦克数量
     private static int enemyNumOnMap;
     private static Color myTankColor;
-    private static int myLife = 1;
+    private static int myLife = 4;
     private static MyTank mt;
     private static int score;
     private static int shellNum;
@@ -134,7 +134,7 @@ public class Setting {
                 default:
                     break;
         }
-        mt = new MyTank(920, 500);
+        mt = new MyTank(900, 500);
     }
 
     /**
@@ -166,4 +166,39 @@ public class Setting {
         Recorder.setStage(stage);
     }
 
+
+    /**
+     * 初始化各个关卡中敌人在地图中的位置
+     * @param stage 关卡
+     */
+    public void initEnemyTankLocatin(int stage){
+
+        switch (stage){
+            case 1:
+                MapPanel.enemyTanks.add(new EnemyTank(100, 50));
+                MapPanel.enemyTanks.add(new EnemyTank(300, 180));
+                MapPanel.enemyTanks.add(new EnemyTank(200, 350));
+                MapPanel.enemyTanks.add(new EnemyTank(300, 500));
+                break;
+            case 2:
+                MapPanel.enemyTanks.add(new EnemyTank(10, 150));
+                MapPanel.enemyTanks.add(new EnemyTank(100, 300));
+                MapPanel.enemyTanks.add(new EnemyTank(200, 450));
+                MapPanel.enemyTanks.add(new EnemyTank(320, 320));
+                MapPanel.enemyTanks.add(new EnemyTank(10, 450));
+                break;
+            case 3:
+                MapPanel.enemyTanks.add(new EnemyTank(150, 30));
+                MapPanel.enemyTanks.add(new EnemyTank(30, 200));
+                MapPanel.enemyTanks.add(new EnemyTank(150, 450));
+                MapPanel.enemyTanks.add(new EnemyTank(270, 250));
+                MapPanel.enemyTanks.add(new EnemyTank(350, 100));
+                MapPanel.enemyTanks.add(new EnemyTank(350, 400));
+                break;
+        }
+        for (int i = 0; i < MapPanel.enemyTanks.size(); i++ ){
+            Thread thread = new Thread(MapPanel.enemyTanks.get(i));
+            thread.start();
+        }
+    }
 }

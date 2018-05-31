@@ -19,6 +19,7 @@ public class ChooseStage extends FWindow implements ActionListener{
     public ChooseStage(){
         super();
     }
+
     public void init(){
 
         this.setLayout(new BorderLayout());
@@ -114,9 +115,7 @@ public class ChooseStage extends FWindow implements ActionListener{
 //            System.out.println(recorder.getPlayerInfoFromJson());
             if (recorder.getPassStage() && recorder.getEnemyInfoFromJson() && recorder.getPlayerInfoFromJson()){
                 this.dispose();
-                GameWindow gw = new GameWindow(Recorder.getStage());
-                Thread thread = new Thread(gw);
-                thread.start();
+                new GameWindow(Recorder.getStage());
             }   //载入进度失败，跳出错误信息对话框
             else{
                 JLabel errorText = new JLabel("载入进度出现错误，请重新开始游戏");
@@ -126,68 +125,23 @@ public class ChooseStage extends FWindow implements ActionListener{
                         JOptionPane.CLOSED_OPTION,JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            GameWindow gw = new GameWindow();
+//            JLabel message = new JLabel("当前操作可能会覆盖之前的游戏进度", SwingConstants.CENTER);
+//            message.setFont(new Font("黑体", Font.PLAIN, 16));
+//            JOptionPane.showMessageDialog(this, message, "提示", JOptionPane.CLOSED_OPTION);
             if (e.getActionCommand().equals("第1关")) {
                 Setting.initStage(1);
-                gw = new GameWindow(1);
+                new GameWindow(1);
             } else if (e.getActionCommand().equals("第2关")) {
                 Setting.initStage(2);
-                gw = new GameWindow(2);
+                new GameWindow(2);
             } else if (e.getActionCommand().equals("第3关")) {
                 Setting.initStage(3);
-                gw = new GameWindow(3);
+                new GameWindow(3);
             }
-            Thread thread = new Thread(gw);
-            thread.start();
             this.dispose();
         }
     }
 
-    /**
-     * 选择管卡的面板
-     */
-//    private class ChooseStagePanel extends JPanel{
-//
-//        public ChooseStagePanel(){
-//
-//            ChooseStage chooseStage = new ChooseStage();
-//            this.setLayout(new BorderLayout());
-//            //this.setPreferredSize(new Dimension());
-//            JPanel panNull = new JPanel();
-//            JPanel panNull1 = new JPanel();
-//            JPanel panNull2 = new JPanel();
-//            panNull.setPreferredSize(new Dimension(710,60));
-//            panNull1.setPreferredSize(new Dimension(40, 350));
-//            panNull2.setPreferredSize(new Dimension(710, 60));
-//            //存放关卡选择的滚动面板
-//
-//            ImageIcon stage1Icon = new ImageIcon("sources/images/stage1.png");
-//            JButton buStage_1 = new JButton("", stage1Icon);
-//            ImageIcon stage2Icon = new ImageIcon("sources/images/stage2.png");
-//            JButton buStage_2 = new JButton("", stage2Icon);
-//            ImageIcon stage3Icon = new ImageIcon("sources/images/stage3.png");
-//            JButton buStage_3 = new JButton("", stage3Icon);
-//            ArrayList<JButton> buStages = new ArrayList<>();
-//            buStages.add(buStage_1);
-//            buStages.add(buStage_2);
-//            buStages.add(buStage_3);
-//            ButtonPanel stageBuPanel = new ButtonPanel(540, 951, 20, 20, buStages);
-//            stageBuPanel.setButtonBorder(null);
-//            stageBuPanel.setPanWestSize(40, 420);
-//            JScrollPane jspChooseStage = new JScrollPane(stageBuPanel);
-//            jspChooseStage.setBorder(null);
-//            for (int i = 0; i < buStages.size(); i++ ){
-//                JButton jButton = buStages.get(i);
-//                jButton.setActionCommand("第" + (i+1) + "关");
-//                //System.out.println(jButton.getActionCommand());
-//                jButton.addActionListener(chooseStage);
-//            }
-//            this.add(panNull, BorderLayout.NORTH);
-//            this.add(panNull1, BorderLayout.EAST);
-//            this.add(panNull2, BorderLayout.SOUTH);
-//            this.add(jspChooseStage, BorderLayout.CENTER);
-//        }
-//    }
 }
 
 

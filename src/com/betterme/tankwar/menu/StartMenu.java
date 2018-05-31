@@ -11,9 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class StartMenu extends FWindow implements ActionListener{
@@ -200,7 +198,7 @@ public class StartMenu extends FWindow implements ActionListener{
             this.setIconImage(icon);
             this.setLocationByPlatform(true);
             this.setModal(true);
-            ImageIcon lableIcon = new ImageIcon("sources/images/ips.png");
+            ImageIcon lableIcon = new ImageIcon("sources/images/tips.png");
             JLabel imgLable = new JLabel();
             imgLable.setIcon(lableIcon);
             this.add(imgLable);
@@ -224,13 +222,23 @@ public class StartMenu extends FWindow implements ActionListener{
             TextArea aboutArea = new TextArea();
             //aboutArea.setBounds(null);
             aboutArea.setFont(new Font("黑体", Font.PLAIN, 20));
+            aboutArea.setEditable(false);
+            aboutArea.setBackground(Color.WHITE);
             try{
                 FileReader fr = new FileReader("sources/updateLog");
+//                File f = new File("sources/updateLog");
+//                InputStreamReader isr = new InputStreamReader(
+//                        new FileInputStream(f), "UTF-8");
                 BufferedReader br = new BufferedReader(fr);
+//                BufferedReader br = new BufferedReader(isr);
                 String aboutStr = null;
                 while ((aboutStr = br.readLine()) != null){
-                aboutArea.append(aboutStr + "\n");
+                //aboutArea.append(aboutStr + "\n");
+                    //解决乱码问题
+                aboutArea.append(new String(aboutStr.getBytes(), "UTF-8") + "\n");
                 }
+                br.close();
+                fr.close();
             }catch (IOException e){
                 e.printStackTrace();
             }
